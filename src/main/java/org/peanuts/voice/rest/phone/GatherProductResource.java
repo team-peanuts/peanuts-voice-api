@@ -40,6 +40,8 @@ public class GatherProductResource extends AbstractResource {
   public Response addProduct() {
     ShoppingCartItem item = new ShoppingCartItem("Klopapier", 1);
     ShoppingCart.INSTANCE.addProductToCart(callSid, item);
+    System.out.println(callSid);
+    System.out.println(recordingUrl);
     String product = "Ich habe 1 Rolle Klopapier hinzugefügt.";
 
     Say say = say(product + Strings.ADD_MORE_PRODUCTS);

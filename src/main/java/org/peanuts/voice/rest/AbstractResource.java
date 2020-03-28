@@ -17,15 +17,15 @@
  */
 package org.peanuts.voice.rest;
 
-import javax.ws.rs.HeaderParam;
+import javax.ws.rs.FormParam;
 import javax.ws.rs.core.Response;
 
 public abstract class AbstractResource {
 
-  @HeaderParam("CallSid")
+  @FormParam("CallSid")
   protected String callSid;
 
-  @HeaderParam("RecordingUrl")
+  @FormParam("RecordingUrl")
   protected String recordingUrl;
 
   protected <T> Response ok(T entity) {

@@ -21,8 +21,8 @@ import org.glassfish.jersey.server.ResourceConfig;
 import org.peanuts.voice.rest.phone.AddMoreProductsResource;
 import org.peanuts.voice.rest.phone.GatherAddressResource;
 import org.peanuts.voice.rest.phone.GatherProductResource;
-import org.peanuts.voice.rest.shopping.ShoppingCartResource;
 import org.peanuts.voice.rest.phone.HelloResource;
+import org.peanuts.voice.rest.shopping.ShoppingCartResource;
 import org.springframework.stereotype.Component;
 
 @Component
@@ -30,6 +30,9 @@ public class VoiceAppJerseyConfig extends ResourceConfig
 {
   public VoiceAppJerseyConfig()
   {
+//    Logger logger = Logger.getLogger(getClass().getName());
+//    Feature feature = new LoggingFeature(logger, Level.INFO, null, null);
+//    register(feature);
     register(HelloResource.class);
     register(GatherProductResource.class);
     register(GatherAddressResource.class);

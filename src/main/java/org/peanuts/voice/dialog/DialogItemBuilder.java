@@ -28,7 +28,10 @@ public class DialogItemBuilder {
   }
 
   public static Record record(String actionPath) {
-    return new Record.Builder().action(actionPath).build();
+    return new Record.Builder()
+            .action(actionPath)
+            .playBeep(false)
+            .build();
   }
 
   public static VoiceResponse voiceResponse(Say say, Record record) {

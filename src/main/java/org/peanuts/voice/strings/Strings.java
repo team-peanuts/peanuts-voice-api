@@ -19,12 +19,11 @@ package org.peanuts.voice.strings;
 
 public class Strings {
 
-  public static final String WELCOME = "Herzlich Willkommen zu Ihrem vollautomatischen " +
-          "Einkaufshelfer. Sagen Sie einfach, was Sie benötigen und wir finden einen freundlichen" +
-          " Nachbarn in der Nähe, der Ihnen beim nächsten Einkauf etwas mitbringt. Welche " +
-          "Produkte benötigen Sie?";
+  public static final String WELCOME = "Hi! I'm your fully-automated shopping assistant. Just say" +
+          " what you need and I'll find your friendly neighbour who is willing to bring you any " +
+          "food or other items" +
+          "you need. Which products do you need?";
 
-  public static final String ADD_MORE_PRODUCTS = "Möchten Sie noch weitere Produkte mitgebracht " +
-          "bekommen?";
+  public static final String ADD_MORE_PRODUCTS = "Do you want to get anything else?";
 
 }
