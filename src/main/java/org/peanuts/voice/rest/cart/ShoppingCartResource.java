@@ -15,27 +15,9 @@
  * limitations under the License.
  *
  */
-package org.peanuts.voice.rest;
+package org.peanuts.voice.rest.cart;
 
-import static org.peanuts.voice.dialog.DialogItemBuilder.*;
+import org.peanuts.voice.rest.AbstractResource;
 
-import com.twilio.twiml.voice.Record;
-import com.twilio.twiml.voice.Say;
-
-import javax.ws.rs.POST;
-import javax.ws.rs.Path;
-import javax.ws.rs.Produces;
-import javax.ws.rs.core.MediaType;
-import javax.ws.rs.core.Response;
-
-@Path("/add-more-products")
-public class AddMoreProductsResource extends AbstractResource{
-
-  @POST
-  @Produces(MediaType.APPLICATION_XML)
-  public Response addMoreProductsAnswer() {
-    Say say = say("Bitte sagen Sie uns Ihren Namen und Ihre Adresse");
-    Record record = record("/gather-address");
-    return ok(voiceResponse(say, record).toXml());
-  }
+public class ShoppingCartResource extends AbstractResource {
 }

@@ -15,7 +15,27 @@
  * limitations under the License.
  *
  */
-package org.peanuts.voice.rest;
+package org.peanuts.voice.rest.phone;
 
-public class ShoppingCartResource extends AbstractResource {
+import static org.peanuts.voice.dialog.DialogItemBuilder.say;
+import static org.peanuts.voice.dialog.DialogItemBuilder.voiceResponse;
+
+import com.twilio.twiml.voice.Say;
+import org.peanuts.voice.rest.AbstractResource;
+
+import javax.ws.rs.POST;
+import javax.ws.rs.Path;
+import javax.ws.rs.Produces;
+import javax.ws.rs.core.MediaType;
+import javax.ws.rs.core.Response;
+
+@Path("gather-address")
+public class GatherAddressResource extends AbstractResource {
+
+  @POST
+  @Produces(MediaType.APPLICATION_XML)
+  public Response processAddressAnswer() {
+    Say say = say("Vielen Dank, wir werden umgehend liefern!");
+    return ok(voiceResponse(say).toXml());
+  }
 }

@@ -15,41 +15,35 @@
  * limitations under the License.
  *
  */
-package org.peanuts.voice.rest;
+package org.peanuts.voice.rest.phone;
 
 import static org.peanuts.voice.dialog.DialogItemBuilder.*;
 
-import com.twilio.twiml.VoiceResponse;
 import com.twilio.twiml.voice.Record;
 import com.twilio.twiml.voice.Say;
 import org.peanuts.voice.cart.ShoppingCart;
+import org.peanuts.voice.cart.ShoppingCartItem;
+import org.peanuts.voice.rest.AbstractResource;
 import org.peanuts.voice.strings.Strings;
 
-import javax.ws.rs.GET;
 import javax.ws.rs.POST;
 import javax.ws.rs.Path;
 import javax.ws.rs.Produces;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 
-@Path("/")
-public class HelloResource extends AbstractResource {
-
-
-  @GET
-  @Produces(MediaType.TEXT_HTML)
-  public Response sayHelloWeb() {
-    return ok("Hello World");
-  }
+@Path("/products")
+public class GatherProductResource extends AbstractResource {
 
   @POST
   @Produces(MediaType.APPLICATION_XML)
-  public Response sayWelcomeText() {
-    ShoppingCart.INSTANCE.initiateTransaction(callSid);
-    Say say  = say(Strings.WELCOME);
-    Record record = record("/products");
-    VoiceResponse voiceResponse = voiceResponse(say, record);
+  public Response addProduct() {
+    ShoppingCartItem item = new ShoppingCartItem("Klopapier", 1);
+    ShoppingCart.INSTANCE.addProductToCart(callSid, item);
+    String product = "Ich habe 1 Rolle Klopapier hinzugefügt.";
 
-    return ok(voiceResponse.toXml());
+    Say say = say(product + Strings.ADD_MORE_PRODUCTS);
+    Record record = record("/add-more-products");
+    return ok(voiceResponse(say, record).toXml());
   }
 }

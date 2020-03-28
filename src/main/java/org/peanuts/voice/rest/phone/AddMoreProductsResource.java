@@ -15,15 +15,13 @@
  * limitations under the License.
  *
  */
-package org.peanuts.voice.rest;
+package org.peanuts.voice.rest.phone;
 
 import static org.peanuts.voice.dialog.DialogItemBuilder.*;
 
 import com.twilio.twiml.voice.Record;
 import com.twilio.twiml.voice.Say;
-import org.peanuts.voice.cart.ShoppingCart;
-import org.peanuts.voice.cart.ShoppingCartItem;
-import org.peanuts.voice.strings.Strings;
+import org.peanuts.voice.rest.AbstractResource;
 
 import javax.ws.rs.POST;
 import javax.ws.rs.Path;
@@ -31,18 +29,14 @@ import javax.ws.rs.Produces;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 
-@Path("/products")
-public class GatherProductResource extends AbstractResource {
+@Path("/add-more-products")
+public class AddMoreProductsResource extends AbstractResource {
 
   @POST
   @Produces(MediaType.APPLICATION_XML)
-  public Response addProduct() {
-    ShoppingCartItem item = new ShoppingCartItem("Klopapier", 1);
-    ShoppingCart.INSTANCE.addProductToCart(callSid, item);
-    String product = "Ich habe 1 Rolle Klopapier hinzugefügt.";
-
-    Say say = say(product + Strings.ADD_MORE_PRODUCTS);
-    Record record = record("/add-more-products");
+  public Response addMoreProductsAnswer() {
+    Say say = say("Bitte sagen Sie uns Ihren Namen und Ihre Adresse");
+    Record record = record("/gather-address");
     return ok(voiceResponse(say, record).toXml());
   }
 }

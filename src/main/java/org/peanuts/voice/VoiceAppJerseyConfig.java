@@ -18,10 +18,10 @@
 package org.peanuts.voice;
 
 import org.glassfish.jersey.server.ResourceConfig;
-import org.peanuts.voice.rest.AddMoreProductsResource;
-import org.peanuts.voice.rest.GatherAddressResource;
-import org.peanuts.voice.rest.GatherProductResource;
-import org.peanuts.voice.rest.HelloResource;
+import org.peanuts.voice.rest.phone.AddMoreProductsResource;
+import org.peanuts.voice.rest.phone.GatherAddressResource;
+import org.peanuts.voice.rest.phone.GatherProductResource;
+import org.peanuts.voice.rest.phone.HelloResource;
 import org.springframework.stereotype.Component;
 
 @Component
