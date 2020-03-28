@@ -15,9 +15,35 @@
  * limitations under the License.
  *
  */
-package org.peanuts.voice.rest.cart;
+package org.peanuts.voice.rest.shopping;
 
+import org.peanuts.voice.cart.ShoppingCartInfo;
+import org.peanuts.voice.data.DummyDataProvider;
 import org.peanuts.voice.rest.AbstractResource;
 
+import javax.ws.rs.GET;
+import javax.ws.rs.PUT;
+import javax.ws.rs.Path;
+import javax.ws.rs.PathParam;
+import javax.ws.rs.Produces;
+import javax.ws.rs.core.MediaType;
+import javax.ws.rs.core.Response;
+
+@Path("shopping-cart")
 public class ShoppingCartResource extends AbstractResource {
+
+  @GET
+  @Path("/{callerId}")
+  @Produces(MediaType.APPLICATION_JSON)
+  public Response getShoppingCartInfoForCaller(@PathParam("callerId") String callerId) {
+    return ok(DummyDataProvider.makeDummyInfo(callerId));
+  }
+
+  @PUT
+  @Path("/{callerId}")
+  @Produces(MediaType.APPLICATION_JSON)
+  public Response updateShoppingCartInfoForCaller(@PathParam("callerId") String callerId,
+                                                  ShoppingCartInfo info) {
+    return ok(info);
+  }
 }

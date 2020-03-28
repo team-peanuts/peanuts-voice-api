@@ -21,6 +21,7 @@ import org.glassfish.jersey.server.ResourceConfig;
 import org.peanuts.voice.rest.phone.AddMoreProductsResource;
 import org.peanuts.voice.rest.phone.GatherAddressResource;
 import org.peanuts.voice.rest.phone.GatherProductResource;
+import org.peanuts.voice.rest.shopping.ShoppingCartResource;
 import org.peanuts.voice.rest.phone.HelloResource;
 import org.springframework.stereotype.Component;
 
@@ -33,6 +34,8 @@ public class VoiceAppJerseyConfig extends ResourceConfig
     register(GatherProductResource.class);
     register(GatherAddressResource.class);
     register(AddMoreProductsResource.class);
+
+    register(ShoppingCartResource.class);
 
   }
 }

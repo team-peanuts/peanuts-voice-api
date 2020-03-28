@@ -20,6 +20,7 @@ package org.peanuts.voice.cart;
 public class ShoppingCartCustomer {
 
   private String customerName;
+  private String callerId;
   private String customerAddress;
 
   public ShoppingCartCustomer() {
@@ -39,5 +40,13 @@ public class ShoppingCartCustomer {
 
   public void setCustomerAddress(String customerAddress) {
     this.customerAddress = customerAddress;
+  }
+
+  public String getCallerId() {
+    return callerId;
+  }
+
+  public void setCallerId(String callerId) {
+    this.callerId = callerId;
   }
 }
