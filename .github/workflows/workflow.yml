@@ -14,7 +14,7 @@ jobs:
 
       - uses: azure/docker-login@v1
         with:
-          login-server: {{ secrets.AZURE_LOGIN_SERVER }}
+          login-server: ${{ secrets.AZURE_LOGIN_SERVER }}
       - run: |
           docker build .t ${{ secrets.DOCKER_IMAGE_NAME }}
           docker push ${{ secrets.DOCKER_IMAGE_NAME }}
