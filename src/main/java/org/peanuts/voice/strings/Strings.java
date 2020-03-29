@@ -25,5 +25,6 @@ public class Strings {
           "you need. Which products do you need?";
 
   public static final String ADD_MORE_PRODUCTS = "Do you want to get anything else?";
+  public static final String PRODUCTS_ADDED = "I've added the following products";
 
 }

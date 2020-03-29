@@ -21,7 +21,11 @@ import static org.peanuts.voice.dialog.DialogItemBuilder.*;
 
 import com.twilio.twiml.voice.Record;
 import com.twilio.twiml.voice.Say;
-import org.peanuts.voice.rest.AbstractResource;
+import org.peanuts.voice.model.SimpleYesNoQuestion;
+import org.peanuts.voice.rest.AbstractPostResource;
+import org.peanuts.voice.service.MoreProductsRecognitionService;
+
+import java.io.IOException;
 
 import javax.ws.rs.POST;
 import javax.ws.rs.Path;
@@ -30,13 +34,27 @@ import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 
 @Path("/add-more-products")
-public class AddMoreProductsResource extends AbstractResource {
+public class AddMoreProductsResource extends AbstractPostResource {
 
   @POST
   @Produces(MediaType.APPLICATION_XML)
   public Response addMoreProductsAnswer() {
-    Say say = say("Bitte sagen Sie uns Ihren Namen und Ihre Adresse");
-    Record record = record("/gather-address");
-    return ok(voiceResponse(say, record).toXml());
+    try {
+      SimpleYesNoQuestion answer = new MoreProductsRecognitionService(recordingUrl).recognize();
+      if (answer == SimpleYesNoQuestion.YES) {
+        Say say = say("What else do you want?");
+        Record record = record("/products");
+        return ok(voiceResponse(say, record).toXml());
+      } else {
+        Say say = say("Please tell me your address");
+        Record record = record("/gather-address");
+        return ok(voiceResponse(say, record).toXml());
+      }
+    } catch (IOException e) {
+      e.printStackTrace();
+      Say say = say("Sorry, something went wrong. Goodbye!");
+      return ok(voiceResponse(say).toXml());
+    }
+
   }
 }

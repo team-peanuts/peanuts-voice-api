@@ -21,7 +21,13 @@ import static org.peanuts.voice.dialog.DialogItemBuilder.say;
 import static org.peanuts.voice.dialog.DialogItemBuilder.voiceResponse;
 
 import com.twilio.twiml.voice.Say;
+import org.peanuts.voice.cart.OrderStatus;
+import org.peanuts.voice.cart.ShoppingCart;
+import org.peanuts.voice.cart.ShoppingCartInfo;
 import org.peanuts.voice.rest.AbstractPostResource;
+import org.peanuts.voice.service.AddressRecognitionService;
+
+import java.io.IOException;
 
 import javax.ws.rs.POST;
 import javax.ws.rs.Path;
@@ -35,7 +41,20 @@ public class GatherAddressResource extends AbstractPostResource {
   @POST
   @Produces(MediaType.APPLICATION_XML)
   public Response processAddressAnswer() {
-    Say say = say("Vielen Dank, wir werden umgehend liefern!");
-    return ok(voiceResponse(say).toXml());
+    try {
+      String address = new AddressRecognitionService(recordingUrl).recognize();
+      ShoppingCartInfo info = ShoppingCart.INSTANCE.getShoppingCartInfoForCaller(callSid);
+      info.getShoppingCartCustomer().setCustomerAddress(address);
+      info.setOrderStatus(OrderStatus.ORDER_CREATED);
+      ShoppingCart.INSTANCE.addShoppingCartInfo(info);
+      Say say = say("Thanks, I'll find someone who will deliver your items immediately and will " +
+              "call you back!");
+      return ok(voiceResponse(say).toXml());
+
+    } catch (IOException e) {
+      e.printStackTrace();
+      Say say = say("Sorry, something went wrong. Goodbye!");
+      return ok(voiceResponse(say).toXml());
+    }
   }
 }

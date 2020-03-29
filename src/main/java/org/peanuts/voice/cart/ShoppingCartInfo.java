@@ -29,6 +29,7 @@ public class ShoppingCartInfo {
   private long orderDate;
   private long expectedDeliveryDate;
   private String shoppingCartId;
+  private String friendlyNeighbourName;
 
   private OrderStatus orderStatus;
 
@@ -88,5 +89,13 @@ public class ShoppingCartInfo {
 
   public void setShoppingCartId(String shoppingCartId) {
     this.shoppingCartId = shoppingCartId;
+  }
+
+  public String getFriendlyNeighbourName() {
+    return friendlyNeighbourName;
+  }
+
+  public void setFriendlyNeighbourName(String friendlyNeighbourName) {
+    this.friendlyNeighbourName = friendlyNeighbourName;
   }
 }

@@ -15,25 +15,20 @@
  * limitations under the License.
  *
  */
-package org.peanuts.voice.service;
+package org.peanuts.texttospeech;
 
 import org.peanuts.voice.cart.ShoppingCartItem;
+import org.peanuts.voice.strings.Strings;
 
-import java.io.IOException;
 import java.util.List;
 
-public class ProductRecognitionService extends AbstractRecognitionService<List<ShoppingCartItem>> {
+public class ProductConfirmationTextGenerator {
 
-  public ProductRecognitionService(String audioFileUrl) {
-    super(audioFileUrl);
-  }
-
-  public List<ShoppingCartItem> recognize() throws IOException {
-    String recognizedText = recognizeText();
-    return extractProducts(recognizedText);
-  }
-
-  private List<ShoppingCartItem> extractProducts(String recognizedText) throws IOException {
-    return new NluService(recognizedText).extractShoppingCartItems();
+  public String generateProductConfirmation(List<ShoppingCartItem> items) {
+    String base = Strings.PRODUCTS_ADDED;
+    for(ShoppingCartItem item : items) {
+      base = base +" " +item.getItemQuantity() + " " + item +", ";
+    }
+    return base;
   }
 }

@@ -21,10 +21,15 @@ import static org.peanuts.voice.dialog.DialogItemBuilder.*;
 
 import com.twilio.twiml.voice.Record;
 import com.twilio.twiml.voice.Say;
+import org.peanuts.texttospeech.ProductConfirmationTextGenerator;
 import org.peanuts.voice.cart.ShoppingCart;
 import org.peanuts.voice.cart.ShoppingCartItem;
 import org.peanuts.voice.rest.AbstractPostResource;
+import org.peanuts.voice.service.ProductRecognitionService;
 import org.peanuts.voice.strings.Strings;
+
+import java.io.IOException;
+import java.util.List;
 
 import javax.ws.rs.POST;
 import javax.ws.rs.Path;
@@ -38,14 +43,21 @@ public class GatherProductResource extends AbstractPostResource {
   @POST
   @Produces(MediaType.APPLICATION_XML)
   public Response addProduct() {
-    ShoppingCartItem item = new ShoppingCartItem("Klopapier", 1);
-    ShoppingCart.INSTANCE.addProductToCart(callSid, item);
-    System.out.println(callSid);
-    System.out.println(recordingUrl);
-    String product = "Ich habe 1 Rolle Klopapier hinzugefügt.";
+    try {
+      List<ShoppingCartItem> items = new ProductRecognitionService(recordingUrl).recognize();
+      items.forEach(item -> {
+        ShoppingCart.INSTANCE.addProductToCart(callSid, item);
+      });
+      Say say =
+              say(new ProductConfirmationTextGenerator().generateProductConfirmation(items) + Strings.ADD_MORE_PRODUCTS);
+      Record record = record("/add-more-products");
+      return ok(voiceResponse(say, record).toXml());
+    } catch (IOException e) {
+      e.printStackTrace();
+      String didNotUnderstand = "I could not understand you. Do you want to try it again?";
+      Record record = record("/add-more-products");
+      return ok(voiceResponse(say(didNotUnderstand), record).toXml());
 
-    Say say = say(product + Strings.ADD_MORE_PRODUCTS);
-    Record record = record("/add-more-products");
-    return ok(voiceResponse(say, record).toXml());
+    }
   }
 }
