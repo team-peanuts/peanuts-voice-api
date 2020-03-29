@@ -36,6 +36,6 @@ jobs:
           registry-login-server: ${{ secrets.AZURE_LOGIN_SERVER }}
           registry-username: ${{ secrets.REGISTRY_USERNAME }}
           registry-password: ${{ secrets.REGISTRY_PASSWORD }}
-          secure-environment-variables: NLU_ENDPOINT_URL=${{ secrets.NLU_ENDPOINT_URL }}
+          secure-environment-variables: NLU_ENDPOINT_URL=${{ secrets.NLU_ENDPOINT_URL }} GOOGLE_CREDENTIALS='${{ secrets.GOOGLE_CREDENTIALS }}'
           ports: 8080
           location: 'west us'
