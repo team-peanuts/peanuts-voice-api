@@ -17,6 +17,8 @@
  */
 package org.peanuts.voice.rest.shopping;
 
+import org.peanuts.voice.call.MakeCall;
+import org.peanuts.voice.cart.OrderStatus;
 import org.peanuts.voice.cart.ShoppingCart;
 import org.peanuts.voice.cart.ShoppingCartInfo;
 import org.peanuts.voice.data.DummyDataProvider;
@@ -71,6 +73,11 @@ public class ShoppingCartResource extends AbstractResource {
   public Response updateShoppingCartInfoForCaller(@PathParam("callerId") String callerId,
                                                   ShoppingCartInfo info) {
     ShoppingCart.INSTANCE.addShoppingCartInfo(info);
+    if (info.getShoppingCartCustomer().getCustomerPhoneNumber() != null) {
+      if (info.getOrderStatus() == OrderStatus.ORDER_WILL_BE_DELIVERED_SOON) {
+        MakeCall.INSTANCE.makeCall(info);
+      }
+    }
     return ok(info);
   }
 

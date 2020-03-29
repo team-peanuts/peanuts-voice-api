@@ -46,7 +46,7 @@ public class HelloResource extends AbstractResource {
 
   @POST
   @Produces(MediaType.APPLICATION_XML)
-  public Response sayWelcomeText(@FormParam("callSid") String callSid,
+  public Response sayWelcomeText(@FormParam("CallSid") String callSid,
                                  @FormParam("From") String fromPhoneNumber) {
     ShoppingCart.INSTANCE.initiateTransaction(callSid, fromPhoneNumber);
     Say say  = say(Strings.WELCOME);

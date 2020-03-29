@@ -15,20 +15,34 @@
  * limitations under the License.
  *
  */
-package org.peanuts.texttospeech;
+package org.peanuts.voice.texttospeech;
 
+import org.peanuts.voice.cart.ShoppingCartInfo;
 import org.peanuts.voice.cart.ShoppingCartItem;
 import org.peanuts.voice.strings.Strings;
 
 import java.util.List;
 
-public class ProductConfirmationTextGenerator {
+public class ConfirmationTextGenerator {
 
   public String generateProductConfirmation(List<ShoppingCartItem> items) {
     String base = Strings.PRODUCTS_ADDED;
     for(ShoppingCartItem item : items) {
-      base = base +" " +item.getItemQuantity() + " " + item +", ";
+      base = base +" " +item.getItemQuantity() + " " + item.getItemName() +", ";
     }
     return base;
+  }
+
+  public String generateDeliveryAnnouncement(ShoppingCartInfo info) {
+    String base = "Hi, I've good news: " + info.getFriendlyNeighbourName() + " will deliver the " +
+            "following products shortly: ";
+    addShoppingInfo(info.getShoppingCartItems(), base);
+    return base + " Goodbye!";
+  }
+
+  private void addShoppingInfo(List<ShoppingCartItem> items, String base) {
+    for(ShoppingCartItem item : items) {
+      base = base +" " +item.getItemQuantity() + " " + item.getItemName() +", ";
+    }
   }
 }

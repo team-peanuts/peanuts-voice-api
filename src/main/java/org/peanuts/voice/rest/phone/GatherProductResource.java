@@ -21,12 +21,12 @@ import static org.peanuts.voice.dialog.DialogItemBuilder.*;
 
 import com.twilio.twiml.voice.Record;
 import com.twilio.twiml.voice.Say;
-import org.peanuts.texttospeech.ProductConfirmationTextGenerator;
 import org.peanuts.voice.cart.ShoppingCart;
 import org.peanuts.voice.cart.ShoppingCartItem;
 import org.peanuts.voice.rest.AbstractPostResource;
 import org.peanuts.voice.service.ProductRecognitionService;
 import org.peanuts.voice.strings.Strings;
+import org.peanuts.voice.texttospeech.ConfirmationTextGenerator;
 
 import java.io.IOException;
 import java.util.List;
@@ -49,7 +49,7 @@ public class GatherProductResource extends AbstractPostResource {
         ShoppingCart.INSTANCE.addProductToCart(callSid, item);
       });
       Say say =
-              say(new ProductConfirmationTextGenerator().generateProductConfirmation(items) + Strings.ADD_MORE_PRODUCTS);
+              say(new ConfirmationTextGenerator().generateProductConfirmation(items) + Strings.ADD_MORE_PRODUCTS);
       Record record = record("/add-more-products");
       return ok(voiceResponse(say, record).toXml());
     } catch (IOException e) {

@@ -26,8 +26,12 @@ import com.google.cloud.speech.v1p1beta1.SpeechClient;
 import com.google.cloud.speech.v1p1beta1.SpeechRecognitionAlternative;
 import com.google.cloud.speech.v1p1beta1.SpeechRecognitionResult;
 import com.google.cloud.speech.v1p1beta1.SpeechSettings;
+import com.google.gson.Gson;
 import com.google.protobuf.ByteString;
 import org.apache.http.client.fluent.Request;
+import org.peanuts.voice.cart.ShoppingCart;
+import org.peanuts.voice.cart.ShoppingCartInfo;
+import org.peanuts.voice.cart.ShoppingCartItem;
 
 import java.io.ByteArrayInputStream;
 import java.io.IOException;
@@ -88,5 +92,15 @@ public enum TextToSpeech {
     } else {
       throw new IllegalArgumentException("Could not recognize");
     }
+  }
+
+  public static void main(String[] args) {
+    ShoppingCart.INSTANCE.initiateTransaction("ABC", "+49721");
+    ShoppingCart.INSTANCE.addProductToCart("ABC", new ShoppingCartItem("Chocolate", 1));
+    ShoppingCartInfo info = ShoppingCart.INSTANCE.getShoppingCartInfoForCaller("ABC");
+    info.getShoppingCartCustomer().setCustomerAddress("Address");
+
+    System.out.println(new Gson().toJson(ShoppingCart.INSTANCE.getShoppingCartInfoForCaller("ABC")));
+
   }
 }

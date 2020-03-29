@@ -34,6 +34,7 @@ public enum ShoppingCart {
 
   public void initiateTransaction(String callerId, String fromPhoneNumber) {
     ShoppingCartInfo shoppingCartInfo = new ShoppingCartInfo();
+    shoppingCartInfo.getShoppingCartCustomer().setCallerId(callerId);
     shoppingCartInfo.getShoppingCartCustomer().setCustomerPhoneNumber(fromPhoneNumber);
     shoppingCartInfo.setOrderStatus(OrderStatus.ORDER_INITIATED);
     this.currentlyOpenTransactions.put(callerId, shoppingCartInfo);
