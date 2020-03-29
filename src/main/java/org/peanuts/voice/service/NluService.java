@@ -24,8 +24,8 @@ import org.peanuts.voice.model.nlu.NluResponse;
 
 import java.io.IOException;
 import java.net.URLEncoder;
-import java.util.Collections;
 import java.util.List;
+import java.util.stream.Collectors;
 
 public class NluService {
 
@@ -41,8 +41,15 @@ public class NluService {
   public List<ShoppingCartItem> extractShoppingCartItems() throws IOException {
     String response = Request.Get(makeEndpointAddress(text)).execute().returnContent().asString();
     NluResponse nluResponse = this.gson.fromJson(response, NluResponse.class);
-    System.out.println(gson.toJson(nluResponse));
-    return Collections.emptyList();
+    return toShoppingCartItems(nluResponse);
+  }
+
+  private List<ShoppingCartItem> toShoppingCartItems(NluResponse nluResponse) {
+    return nluResponse
+            .getEntities()
+            .stream()
+            .map(entity -> new ShoppingCartItem(entity.getValue(), 1))
+            .collect(Collectors.toList());
   }
 
   private String makeEndpointAddress(String text) {
