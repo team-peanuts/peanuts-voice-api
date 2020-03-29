@@ -26,6 +26,7 @@ import org.peanuts.voice.cart.ShoppingCart;
 import org.peanuts.voice.rest.AbstractResource;
 import org.peanuts.voice.strings.Strings;
 
+import javax.ws.rs.FormParam;
 import javax.ws.rs.GET;
 import javax.ws.rs.POST;
 import javax.ws.rs.Path;
@@ -45,7 +46,7 @@ public class HelloResource extends AbstractResource {
 
   @POST
   @Produces(MediaType.APPLICATION_XML)
-  public Response sayWelcomeText() {
+  public Response sayWelcomeText(@FormParam("callSid") String callSid) {
     ShoppingCart.INSTANCE.initiateTransaction(callSid);
     Say say  = say(Strings.WELCOME);
     Record record = record("/products");

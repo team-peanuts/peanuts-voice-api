@@ -17,16 +17,13 @@
  */
 package org.peanuts.voice.rest;
 
-import javax.ws.rs.FormParam;
 import javax.ws.rs.core.Response;
 
 public abstract class AbstractResource {
 
-  @FormParam("CallSid")
-  protected String callSid;
-
-  @FormParam("RecordingUrl")
-  protected String recordingUrl;
+  protected Response ok() {
+    return Response.ok().build();
+  }
 
   protected <T> Response ok(T entity) {
     return Response

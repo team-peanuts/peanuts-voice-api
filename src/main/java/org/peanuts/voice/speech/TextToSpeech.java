@@ -33,58 +33,58 @@ import java.io.ByteArrayInputStream;
 import java.io.IOException;
 import java.util.List;
 
-public class TextToSpeech {
+public enum TextToSpeech {
 
-  private static final String AUDIO_FILE_URL = System.getenv("AUDIO_FILE_URL");
-  private static final String GOOGLE_CREDENTIALS = System.getenv("GOOGLE_CREDENTIALS");
+  INSTANCE;
 
-  private String audioFileUrl;
+  private final String GOOGLE_CREDENTIALS = System.getenv("GOOGLE_CREDENTIALS");
 
-  public TextToSpeech(String audioFileUrl) {
-    this.audioFileUrl = audioFileUrl;
-  }
+  private SpeechClient speechClient;
+  private RecognitionConfig recognitionConfig;
 
-  public String recognizeTextGoogle() throws IOException {
+  TextToSpeech() {
     try {
-      ByteArrayInputStream credentialsStream = new ByteArrayInputStream(GOOGLE_CREDENTIALS.getBytes());
-      GoogleCredentials credentials = GoogleCredentials.fromStream(credentialsStream);
-      FixedCredentialsProvider credentialsProvider = FixedCredentialsProvider.create(credentials);
-      SpeechSettings speechSettings =
-              SpeechSettings.newBuilder()
-                      .setCredentialsProvider(credentialsProvider)
-                      .build();
+    ByteArrayInputStream credentialsStream = new ByteArrayInputStream(GOOGLE_CREDENTIALS.getBytes());
+    GoogleCredentials credentials = GoogleCredentials.fromStream(credentialsStream);
+    FixedCredentialsProvider credentialsProvider = FixedCredentialsProvider.create(credentials);
+    SpeechSettings speechSettings =
+            SpeechSettings.newBuilder()
+                    .setCredentialsProvider(credentialsProvider)
+                    .build();
 
-      SpeechClient speechClient = SpeechClient.create(speechSettings);
-      ByteString audioBytes = ByteString.copyFrom(getAudioFileContents());
-
-      RecognitionConfig config =
-              RecognitionConfig.newBuilder()
-                      .setEncoding(RecognitionConfig.AudioEncoding.LINEAR16)
-                      .setEnableWordConfidence(true)
-                      .setUseEnhanced(true)
-                      //.addSpeechContexts(speechContext)
-                      .setLanguageCode("en-US")
-                      .setModel("phone_call")
-                      .build();
-      RecognitionAudio audio = RecognitionAudio.newBuilder()
-              .setContent(audioBytes).build();
-
-      RecognizeResponse response = speechClient.recognize(config, audio);
-      List<SpeechRecognitionResult> results = response.getResultsList();
-
-      for (SpeechRecognitionResult result : results) {
-        SpeechRecognitionAlternative alternative = result.getAlternativesList().get(0);
-        return alternative.getTranscript();
-      }
+    this.speechClient = SpeechClient.create(speechSettings);
+    this.recognitionConfig =
+            RecognitionConfig.newBuilder()
+                    .setEncoding(RecognitionConfig.AudioEncoding.LINEAR16)
+                    .setEnableWordConfidence(true)
+                    .setUseEnhanced(true)
+                    //.addSpeechContexts(speechContext)
+                    .setLanguageCode("en-US")
+                    .setModel("phone_call")
+                    .build();
     } catch(Exception e) {
       e.printStackTrace();
     }
-
-    return "";
   }
 
-  private byte[] getAudioFileContents() throws IOException {
-    return Request.Get(this.audioFileUrl).execute().returnContent().asBytes();
+  private byte[] getAudioFileContents(String audioFileUrl) throws IOException {
+    return Request.Get(audioFileUrl).execute().returnContent().asBytes();
+  }
+
+  public String recognizeText(String audioFileUrl) throws IOException {
+    ByteString audioBytes = ByteString.copyFrom(getAudioFileContents(audioFileUrl));
+    RecognitionAudio audio = RecognitionAudio.newBuilder()
+            .setContent(audioBytes).build();
+
+    RecognizeResponse response = speechClient.recognize(recognitionConfig, audio);
+    List<SpeechRecognitionResult> results = response.getResultsList();
+
+    if (results.size() > 0) {
+      SpeechRecognitionAlternative alternative = results.get(0).getAlternativesList().get(0);
+      return alternative.getTranscript();
+    } else {
+      throw new IllegalArgumentException("Could not recognize");
+    }
   }
 
 }

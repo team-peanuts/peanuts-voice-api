@@ -15,43 +15,18 @@
  * limitations under the License.
  *
  */
-package org.peanuts.voice.cart;
+package org.peanuts.voice.service;
 
-import java.util.UUID;
+import java.io.IOException;
 
-public class ShoppingCartItem {
+public class AddressRecognitionService extends AbstractRecognitionService<String> {
 
-  private String itemName;
-  private Integer itemQuantity;
-  private String itemId;
-
-  public ShoppingCartItem(String itemName, Integer itemQuantity) {
-    this.itemName = itemName;
-    this.itemQuantity = itemQuantity;
-    this.itemId = UUID.randomUUID().toString();
+  public AddressRecognitionService(String audioFileUrl) {
+    super(audioFileUrl);
   }
 
-  public String getItemName() {
-    return itemName;
-  }
-
-  public void setItemName(String itemName) {
-    this.itemName = itemName;
-  }
-
-  public Integer getItemQuantity() {
-    return itemQuantity;
-  }
-
-  public void setItemQuantity(Integer itemQuantity) {
-    this.itemQuantity = itemQuantity;
-  }
-
-  public String getItemId() {
-    return itemId;
-  }
-
-  public void setItemId(String itemId) {
-    this.itemId = itemId;
+  @Override
+  public String recognize() throws IOException {
+    return recognizeText();
   }
 }

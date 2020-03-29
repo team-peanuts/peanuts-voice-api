@@ -15,43 +15,15 @@
  * limitations under the License.
  *
  */
-package org.peanuts.voice.cart;
+package org.peanuts.voice.rest;
 
-import java.util.UUID;
+import javax.ws.rs.FormParam;
 
-public class ShoppingCartItem {
+public class AbstractPostResource extends AbstractResource {
 
-  private String itemName;
-  private Integer itemQuantity;
-  private String itemId;
+  @FormParam("CallSid")
+  protected String callSid;
 
-  public ShoppingCartItem(String itemName, Integer itemQuantity) {
-    this.itemName = itemName;
-    this.itemQuantity = itemQuantity;
-    this.itemId = UUID.randomUUID().toString();
-  }
-
-  public String getItemName() {
-    return itemName;
-  }
-
-  public void setItemName(String itemName) {
-    this.itemName = itemName;
-  }
-
-  public Integer getItemQuantity() {
-    return itemQuantity;
-  }
-
-  public void setItemQuantity(Integer itemQuantity) {
-    this.itemQuantity = itemQuantity;
-  }
-
-  public String getItemId() {
-    return itemId;
-  }
-
-  public void setItemId(String itemId) {
-    this.itemId = itemId;
-  }
+  @FormParam("RecordingUrl")
+  protected String recordingUrl;
 }

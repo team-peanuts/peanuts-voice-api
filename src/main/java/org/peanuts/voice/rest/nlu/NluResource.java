@@ -15,16 +15,12 @@
  * limitations under the License.
  *
  */
-package org.peanuts.voice.rest.phone;
+package org.peanuts.voice.rest.nlu;
 
-import static org.peanuts.voice.dialog.DialogItemBuilder.*;
+import org.peanuts.voice.rest.AbstractResource;
+import org.peanuts.voice.service.NluService;
 
-import com.twilio.twiml.voice.Record;
-import com.twilio.twiml.voice.Say;
-import org.peanuts.voice.cart.ShoppingCart;
-import org.peanuts.voice.cart.ShoppingCartItem;
-import org.peanuts.voice.rest.AbstractPostResource;
-import org.peanuts.voice.strings.Strings;
+import java.io.IOException;
 
 import javax.ws.rs.POST;
 import javax.ws.rs.Path;
@@ -32,20 +28,17 @@ import javax.ws.rs.Produces;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 
-@Path("/products")
-public class GatherProductResource extends AbstractPostResource {
+@Path("nlu")
+public class NluResource extends AbstractResource {
 
   @POST
-  @Produces(MediaType.APPLICATION_XML)
-  public Response addProduct() {
-    ShoppingCartItem item = new ShoppingCartItem("Klopapier", 1);
-    ShoppingCart.INSTANCE.addProductToCart(callSid, item);
-    System.out.println(callSid);
-    System.out.println(recordingUrl);
-    String product = "Ich habe 1 Rolle Klopapier hinzugefügt.";
-
-    Say say = say(product + Strings.ADD_MORE_PRODUCTS);
-    Record record = record("/add-more-products");
-    return ok(voiceResponse(say, record).toXml());
+  @Produces(MediaType.APPLICATION_JSON)
+  public Response triggerNlu(String body) {
+    try {
+      return ok(new NluService(body).extractShoppingCartItems());
+    } catch (IOException e) {
+      e.printStackTrace();
+      return serverError(e);
+    }
   }
 }

@@ -15,43 +15,25 @@
  * limitations under the License.
  *
  */
-package org.peanuts.voice.cart;
+package org.peanuts.voice.service;
 
-import java.util.UUID;
+import org.peanuts.voice.model.SimpleYesNoQuestion;
 
-public class ShoppingCartItem {
+import java.io.IOException;
 
-  private String itemName;
-  private Integer itemQuantity;
-  private String itemId;
+public class MoreProductsRecognitionService extends AbstractRecognitionService<SimpleYesNoQuestion> {
 
-  public ShoppingCartItem(String itemName, Integer itemQuantity) {
-    this.itemName = itemName;
-    this.itemQuantity = itemQuantity;
-    this.itemId = UUID.randomUUID().toString();
+  public MoreProductsRecognitionService(String audioFileUrl) {
+    super(audioFileUrl);
   }
 
-  public String getItemName() {
-    return itemName;
-  }
-
-  public void setItemName(String itemName) {
-    this.itemName = itemName;
-  }
-
-  public Integer getItemQuantity() {
-    return itemQuantity;
-  }
-
-  public void setItemQuantity(Integer itemQuantity) {
-    this.itemQuantity = itemQuantity;
-  }
-
-  public String getItemId() {
-    return itemId;
-  }
-
-  public void setItemId(String itemId) {
-    this.itemId = itemId;
+  @Override
+  public SimpleYesNoQuestion recognize() throws IOException {
+    String text = recognizeText();
+    if (text.contains("Yes")) {
+      return SimpleYesNoQuestion.YES;
+    } else {
+      return SimpleYesNoQuestion.NO;
+    }
   }
 }

@@ -22,6 +22,7 @@ public class ShoppingCartCustomer {
   private String customerName;
   private String callerId;
   private String customerAddress;
+  private String customerPhoneNumber;
 
   public ShoppingCartCustomer() {
   }
@@ -48,5 +49,13 @@ public class ShoppingCartCustomer {
 
   public void setCallerId(String callerId) {
     this.callerId = callerId;
+  }
+
+  public String getCustomerPhoneNumber() {
+    return customerPhoneNumber;
+  }
+
+  public void setCustomerPhoneNumber(String customerPhoneNumber) {
+    this.customerPhoneNumber = customerPhoneNumber;
   }
 }

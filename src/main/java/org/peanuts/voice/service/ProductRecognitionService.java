@@ -15,43 +15,27 @@
  * limitations under the License.
  *
  */
-package org.peanuts.voice.cart;
+package org.peanuts.voice.service;
 
-import java.util.UUID;
+import org.peanuts.voice.cart.ShoppingCartItem;
 
-public class ShoppingCartItem {
+import java.io.IOException;
+import java.util.ArrayList;
+import java.util.List;
 
-  private String itemName;
-  private Integer itemQuantity;
-  private String itemId;
+public class ProductRecognitionService extends AbstractRecognitionService<List<ShoppingCartItem>> {
 
-  public ShoppingCartItem(String itemName, Integer itemQuantity) {
-    this.itemName = itemName;
-    this.itemQuantity = itemQuantity;
-    this.itemId = UUID.randomUUID().toString();
+  public ProductRecognitionService(String audioFileUrl) {
+    super(audioFileUrl);
   }
 
-  public String getItemName() {
-    return itemName;
+  public List<ShoppingCartItem> recognize() throws IOException {
+    String recognizedText = recognizeText();
+    return extractProducts(recognizedText);
   }
 
-  public void setItemName(String itemName) {
-    this.itemName = itemName;
-  }
-
-  public Integer getItemQuantity() {
-    return itemQuantity;
-  }
-
-  public void setItemQuantity(Integer itemQuantity) {
-    this.itemQuantity = itemQuantity;
-  }
-
-  public String getItemId() {
-    return itemId;
-  }
-
-  public void setItemId(String itemId) {
-    this.itemId = itemId;
+  private List<ShoppingCartItem> extractProducts(String recognizedText) {
+    // Call product extraction service
+    return new ArrayList<>();
   }
 }

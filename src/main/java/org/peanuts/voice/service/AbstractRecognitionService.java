@@ -15,43 +15,23 @@
  * limitations under the License.
  *
  */
-package org.peanuts.voice.cart;
+package org.peanuts.voice.service;
 
-import java.util.UUID;
+import org.peanuts.voice.speech.TextToSpeech;
 
-public class ShoppingCartItem {
+import java.io.IOException;
 
-  private String itemName;
-  private Integer itemQuantity;
-  private String itemId;
+public abstract class AbstractRecognitionService<T> {
 
-  public ShoppingCartItem(String itemName, Integer itemQuantity) {
-    this.itemName = itemName;
-    this.itemQuantity = itemQuantity;
-    this.itemId = UUID.randomUUID().toString();
+  protected String audioFileUrl;
+
+  public AbstractRecognitionService(String audioFileUrl) {
+    this.audioFileUrl = audioFileUrl;
   }
 
-  public String getItemName() {
-    return itemName;
+  protected String recognizeText() throws IOException {
+    return TextToSpeech.INSTANCE.recognizeText(this.audioFileUrl);
   }
 
-  public void setItemName(String itemName) {
-    this.itemName = itemName;
-  }
-
-  public Integer getItemQuantity() {
-    return itemQuantity;
-  }
-
-  public void setItemQuantity(Integer itemQuantity) {
-    this.itemQuantity = itemQuantity;
-  }
-
-  public String getItemId() {
-    return itemId;
-  }
-
-  public void setItemId(String itemId) {
-    this.itemId = itemId;
-  }
+  public abstract T recognize() throws IOException;
 }

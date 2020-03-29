@@ -19,6 +19,7 @@ package org.peanuts.voice.cart;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.UUID;
 
 public class ShoppingCartInfo {
 
@@ -27,12 +28,14 @@ public class ShoppingCartInfo {
 
   private long orderDate;
   private long expectedDeliveryDate;
+  private String shoppingCartId;
 
   private OrderStatus orderStatus;
 
   public ShoppingCartInfo() {
     this.shoppingCartItems = new ArrayList<>();
     this.shoppingCartCustomer = new ShoppingCartCustomer();
+    this.shoppingCartId = UUID.randomUUID().toString();
   }
 
   public ShoppingCartCustomer getShoppingCartCustomer() {
@@ -77,5 +80,13 @@ public class ShoppingCartInfo {
 
   public void addShoppingCartItem(ShoppingCartItem item) {
     this.shoppingCartItems.add(item);
+  }
+
+  public String getShoppingCartId() {
+    return shoppingCartId;
+  }
+
+  public void setShoppingCartId(String shoppingCartId) {
+    this.shoppingCartId = shoppingCartId;
   }
 }

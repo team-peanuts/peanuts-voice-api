@@ -18,6 +18,7 @@
 package org.peanuts.voice;
 
 import org.glassfish.jersey.server.ResourceConfig;
+import org.peanuts.voice.rest.nlu.NluResource;
 import org.peanuts.voice.rest.phone.AddMoreProductsResource;
 import org.peanuts.voice.rest.phone.GatherAddressResource;
 import org.peanuts.voice.rest.phone.GatherProductResource;
@@ -39,6 +40,7 @@ public class VoiceAppJerseyConfig extends ResourceConfig
     register(AddMoreProductsResource.class);
 
     register(ShoppingCartResource.class);
+    register(NluResource.class);
 
   }
 }

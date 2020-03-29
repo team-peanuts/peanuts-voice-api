@@ -17,7 +17,9 @@
  */
 package org.peanuts.voice.cart;
 
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 public enum ShoppingCart {
@@ -62,5 +64,21 @@ public enum ShoppingCart {
 
   private Boolean exists(String callerId) {
     return currentlyOpenTransactions.containsKey(callerId);
+  }
+
+  public List<ShoppingCartInfo> getAllShoppingCarts() {
+    return new ArrayList<>(this.currentlyOpenTransactions.values());
+  }
+
+  public void addShoppingCartInfo(ShoppingCartInfo info) {
+    this.currentlyOpenTransactions.put(info.getShoppingCartCustomer().getCallerId(), info);
+  }
+
+  public void deleteShoppingCartInfo(String callerId) {
+    this.currentlyOpenTransactions.remove(callerId);
+  }
+
+  public ShoppingCartInfo getShoppingCartInfoForCaller(String callerId) {
+    return this.currentlyOpenTransactions.get(callerId);
   }
 }

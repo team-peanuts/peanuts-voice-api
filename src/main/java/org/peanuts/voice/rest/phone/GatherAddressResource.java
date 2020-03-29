@@ -21,7 +21,7 @@ import static org.peanuts.voice.dialog.DialogItemBuilder.say;
 import static org.peanuts.voice.dialog.DialogItemBuilder.voiceResponse;
 
 import com.twilio.twiml.voice.Say;
-import org.peanuts.voice.rest.AbstractResource;
+import org.peanuts.voice.rest.AbstractPostResource;
 
 import javax.ws.rs.POST;
 import javax.ws.rs.Path;
@@ -30,7 +30,7 @@ import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 
 @Path("gather-address")
-public class GatherAddressResource extends AbstractResource {
+public class GatherAddressResource extends AbstractPostResource {
 
   @POST
   @Produces(MediaType.APPLICATION_XML)
