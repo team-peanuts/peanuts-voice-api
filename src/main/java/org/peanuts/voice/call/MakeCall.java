@@ -17,6 +17,9 @@
  */
 package org.peanuts.voice.call;
 
+import static org.peanuts.voice.dialog.DialogItemBuilder.say;
+import static org.peanuts.voice.dialog.DialogItemBuilder.voiceResponse;
+
 import com.twilio.Twilio;
 import com.twilio.rest.api.v2010.account.Call;
 import com.twilio.type.PhoneNumber;
@@ -37,9 +40,11 @@ public enum MakeCall {
   }
 
   public void makeCall(ShoppingCartInfo info) {
+    Twiml twiml =
+            new Twiml(voiceResponse(say(new ConfirmationTextGenerator().generateDeliveryAnnouncement(info))).toXml());
     Call call = Call.creator(new PhoneNumber(info.getShoppingCartCustomer().getCustomerPhoneNumber()),
             new PhoneNumber(TWILIO_FROM_NUMBER),
-            new Twiml(new ConfirmationTextGenerator().generateDeliveryAnnouncement(info))).create();
+            twiml).create();
     System.out.println(call.getSid());
   }
 
