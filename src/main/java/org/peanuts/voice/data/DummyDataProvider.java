@@ -40,7 +40,7 @@ public class DummyDataProvider {
     ShoppingCartCustomer customer = new ShoppingCartCustomer();
     customer.setCustomerAddress("Dummy Address, Zurich, Switzerland");
     customer.setCustomerName("Dummy name");
-    customer.setCallerId("ABCCallerId");
+    customer.setCallerId(callerId);
     return customer;
   }
 
