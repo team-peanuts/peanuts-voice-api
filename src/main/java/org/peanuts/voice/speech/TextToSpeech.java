@@ -31,6 +31,7 @@ import org.apache.http.client.fluent.Request;
 
 import java.io.ByteArrayInputStream;
 import java.io.IOException;
+import java.util.Base64;
 import java.util.List;
 
 public enum TextToSpeech {
@@ -44,7 +45,9 @@ public enum TextToSpeech {
 
   TextToSpeech() {
     try {
-    ByteArrayInputStream credentialsStream = new ByteArrayInputStream(GOOGLE_CREDENTIALS.getBytes());
+      String json =
+              new String(Base64.getDecoder().decode(GOOGLE_CREDENTIALS));
+    ByteArrayInputStream credentialsStream = new ByteArrayInputStream(json.getBytes());
     GoogleCredentials credentials = GoogleCredentials.fromStream(credentialsStream);
     FixedCredentialsProvider credentialsProvider = FixedCredentialsProvider.create(credentials);
     SpeechSettings speechSettings =
@@ -86,5 +89,4 @@ public enum TextToSpeech {
       throw new IllegalArgumentException("Could not recognize");
     }
   }
-
 }
