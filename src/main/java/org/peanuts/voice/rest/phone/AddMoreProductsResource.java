@@ -46,8 +46,8 @@ public class AddMoreProductsResource extends AbstractPostResource {
         Record record = record("/products");
         return ok(voiceResponse(say, record).toXml());
       } else {
-        Say say = say("Please tell me your address");
-        Record record = record("/gather-address");
+        Say say = say("Please tell me your name");
+        Record record = record("/gather-name");
         return ok(voiceResponse(say, record).toXml());
       }
     } catch (IOException e) {

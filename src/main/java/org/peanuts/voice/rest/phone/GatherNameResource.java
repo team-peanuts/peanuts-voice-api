@@ -19,40 +19,39 @@ package org.peanuts.voice.rest.phone;
 
 import static org.peanuts.voice.dialog.DialogItemBuilder.*;
 
-import com.twilio.twiml.VoiceResponse;
 import com.twilio.twiml.voice.Record;
 import com.twilio.twiml.voice.Say;
 import org.peanuts.voice.cart.ShoppingCart;
-import org.peanuts.voice.rest.AbstractResource;
-import org.peanuts.voice.strings.Strings;
+import org.peanuts.voice.cart.ShoppingCartInfo;
+import org.peanuts.voice.rest.AbstractPostResource;
+import org.peanuts.voice.service.AddressRecognitionService;
 
-import javax.ws.rs.FormParam;
-import javax.ws.rs.GET;
+import java.io.IOException;
+
 import javax.ws.rs.POST;
 import javax.ws.rs.Path;
 import javax.ws.rs.Produces;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 
-@Path("/")
-public class HelloResource extends AbstractResource {
-
-
-  @GET
-  @Produces(MediaType.TEXT_HTML)
-  public Response sayHelloWeb() {
-    return ok("Hello World");
-  }
+@Path("gather-name")
+public class GatherNameResource extends AbstractPostResource {
 
   @POST
   @Produces(MediaType.APPLICATION_XML)
-  public Response sayWelcomeText(@FormParam("callSid") String callSid,
-                                 @FormParam("From") String fromPhoneNumber) {
-    ShoppingCart.INSTANCE.initiateTransaction(callSid, fromPhoneNumber);
-    Say say  = say(Strings.WELCOME);
-    Record record = record("/products");
-    VoiceResponse voiceResponse = voiceResponse(say, record);
-
-    return ok(voiceResponse.toXml());
+  public Response processNameAnswer() {
+    try {
+      String name = new AddressRecognitionService(recordingUrl).recognize();
+      ShoppingCartInfo info = ShoppingCart.INSTANCE.getShoppingCartInfoForCaller(callSid);
+      info.getShoppingCartCustomer().setCustomerName(name);
+      ShoppingCart.INSTANCE.addShoppingCartInfo(info);
+      Say say = say("Thanks " +name +"! Please tell me your address");
+      Record record = record("/gather-address");
+      return ok(voiceResponse(say, record).toXml());
+    } catch (IOException e) {
+      e.printStackTrace();
+      Say say = say("Sorry, something went wrong. Goodbye!");
+      return ok(voiceResponse(say).toXml());
+    }
   }
 }

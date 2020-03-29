@@ -32,8 +32,9 @@ public enum ShoppingCart {
     this.currentlyOpenTransactions = new HashMap<>();
   }
 
-  public void initiateTransaction(String callerId) {
+  public void initiateTransaction(String callerId, String fromPhoneNumber) {
     ShoppingCartInfo shoppingCartInfo = new ShoppingCartInfo();
+    shoppingCartInfo.getShoppingCartCustomer().setCustomerPhoneNumber(fromPhoneNumber);
     shoppingCartInfo.setOrderStatus(OrderStatus.ORDER_INITIATED);
     this.currentlyOpenTransactions.put(callerId, shoppingCartInfo);
   }
