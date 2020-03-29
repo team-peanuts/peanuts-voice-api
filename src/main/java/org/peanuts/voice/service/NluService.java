@@ -17,7 +17,6 @@
  */
 package org.peanuts.voice.service;
 
-import com.google.gson.Gson;
 import org.apache.http.client.fluent.Request;
 import org.peanuts.voice.cart.ShoppingCartItem;
 import org.peanuts.voice.model.nlu.NluResponse;
@@ -27,17 +26,15 @@ import java.net.URLEncoder;
 import java.util.List;
 import java.util.stream.Collectors;
 
-public class NluService {
+public class NluService extends AbstractNlpService {
 
   private static final String NLU_ENDPOINT_URL = System.getenv("NLU_ENDPOINT_URL");
-  private Gson gson;
-  private String text;
 
   public NluService(String text) {
-    this.text = text;
-    this.gson = new Gson();
+    super(text);
   }
 
+  @Override
   public List<ShoppingCartItem> extractShoppingCartItems() throws IOException {
     String response = Request.Get(makeEndpointAddress(text)).execute().returnContent().asString();
     NluResponse nluResponse = this.gson.fromJson(response, NluResponse.class);

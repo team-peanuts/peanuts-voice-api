@@ -30,7 +30,7 @@ public class DialogItemBuilder {
   public static Record record(String actionPath) {
     return new Record.Builder()
             .action(actionPath)
-            .playBeep(false)
+            .playBeep(true)
             .build();
   }
 

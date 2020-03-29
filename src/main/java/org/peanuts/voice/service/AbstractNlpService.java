@@ -17,23 +17,21 @@
  */
 package org.peanuts.voice.service;
 
+import com.google.gson.Gson;
 import org.peanuts.voice.cart.ShoppingCartItem;
 
 import java.io.IOException;
 import java.util.List;
 
-public class ProductRecognitionService extends AbstractRecognitionService<List<ShoppingCartItem>> {
+public abstract class AbstractNlpService {
 
-  public ProductRecognitionService(String audioFileUrl) {
-    super(audioFileUrl);
+  protected Gson gson;
+  protected String text;
+
+  public AbstractNlpService(String text) {
+    this.text = text;
+    this.gson = new Gson();
   }
 
-  public List<ShoppingCartItem> recognize() throws IOException {
-    String recognizedText = recognizeText();
-    return extractProducts(recognizedText);
-  }
-
-  private List<ShoppingCartItem> extractProducts(String recognizedText) throws IOException {
-    return new MicrosoftNlpService(recognizedText).extractShoppingCartItems();
-  }
+  public abstract List<ShoppingCartItem> extractShoppingCartItems() throws IOException;
 }

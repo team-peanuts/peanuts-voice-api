@@ -32,9 +32,6 @@ public class VoiceAppJerseyConfig extends ResourceConfig
 {
   public VoiceAppJerseyConfig()
   {
-//    Logger logger = Logger.getLogger(getClass().getName());
-//    Feature feature = new LoggingFeature(logger, Level.INFO, null, null);
-//    register(feature);
     register(HelloResource.class);
     register(GatherProductResource.class);
     register(GatherAddressResource.class);
