@@ -30,12 +30,11 @@ jobs:
         uses: 'azure/aci-deploy@v1'
         with:
           resource-group: ${{ secrets.RESOURCE_GROUP }}
-          dns-name-label: peanuts-voice-api
+          dns-name-label: peanuts-backend
           image: ${{ secrets.DOCKER_IMAGE_NAME }}
-          name: codevscovid19-container
+          name: peanuts-backend
           registry-login-server: ${{ secrets.AZURE_LOGIN_SERVER }}
           registry-username: ${{ secrets.REGISTRY_USERNAME }}
           registry-password: ${{ secrets.REGISTRY_PASSWORD }}
-          secure-environment-variables: NLU_ENDPOINT_URL=${{ secrets.NLU_ENDPOINT_URL }} GOOGLE_CREDENTIALS='${{ secrets.GOOGLE_CREDENTIALS }}'
           ports: 8080
           location: 'west us'
